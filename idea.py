@@ -80,28 +80,28 @@ df = pd.DataFrame({
     'monthly_rent_eur': monthly_rent
 })
 
-print(f"\n✓ Dataset created: {len(df)} listings across {df['city'].nunique()} cities")
+print(f"\n[OK] Dataset created: {len(df)} listings across {df['city'].nunique()} cities")
 print(df.describe().round(2))
 
 # ── 2. EXPLORATORY DATA ANALYSIS ────────────────────────────
 print("\n[EDA] Generating plots...")
 
 fig, axes = plt.subplots(2, 3, figsize=(16, 10))
-fig.suptitle('Exploratory Data Analysis — German Housing Market', fontsize=15, fontweight='bold')
+fig.suptitle('Exploratory Data Analysis - German Housing Market', fontsize=15, fontweight='bold')
 
 city_avg = df.groupby('city')['price_per_sqm'].mean().sort_values(ascending=False)
 axes[0,0].bar(city_avg.index, city_avg.values, color=plt.cm.Blues_r(np.linspace(0.3,0.8,len(city_avg))))
-axes[0,0].set_title('Avg Price/sqm by City (€)')
+axes[0,0].set_title('Avg Price/sqm by City (EUR )')
 axes[0,0].set_xlabel('City')
-axes[0,0].set_ylabel('€ per sqm')
+axes[0,0].set_ylabel('EUR  per sqm')
 axes[0,0].tick_params(axis='x', rotation=30)
 for i, v in enumerate(city_avg.values):
-    axes[0,0].text(i, v+50, f'€{v:,.0f}', ha='center', fontsize=8)
+    axes[0,0].text(i, v+50, f'EUR {v:,.0f}', ha='center', fontsize=8)
 
 axes[0,1].hist(df['price_per_sqm'], bins=40, color='steelblue', edgecolor='white', alpha=0.8)
-axes[0,1].axvline(df['price_per_sqm'].mean(), color='red', linestyle='--', label=f'Mean: €{df["price_per_sqm"].mean():,.0f}')
-axes[0,1].set_title('Distribution of Price per sqm (€)')
-axes[0,1].set_xlabel('€ per sqm')
+axes[0,1].axvline(df['price_per_sqm'].mean(), color='red', linestyle='--', label=f'Mean: EUR {df["price_per_sqm"].mean():,.0f}')
+axes[0,1].set_title('Distribution of Price per sqm (EUR )')
+axes[0,1].set_xlabel('EUR  per sqm')
 axes[0,1].set_ylabel('Count')
 axes[0,1].legend()
 
@@ -110,7 +110,7 @@ scatter = axes[0,2].scatter(sample['size_sqm'], sample['price_per_sqm'],
                              c=sample['district_score'], cmap='RdYlGn', alpha=0.6, s=20)
 axes[0,2].set_title('Size vs Price/sqm (colour = district score)')
 axes[0,2].set_xlabel('Size (sqm)')
-axes[0,2].set_ylabel('€ per sqm')
+axes[0,2].set_ylabel('EUR  per sqm')
 plt.colorbar(scatter, ax=axes[0,2], label='District Score')
 
 age_bins = pd.cut(df['age_years'], bins=[0,5,15,30,50,80], labels=['0-5y','6-15y','16-30y','31-50y','50+y'])
@@ -118,7 +118,7 @@ age_price = df.groupby(age_bins)['price_per_sqm'].mean()
 axes[1,0].bar(age_price.index.astype(str), age_price.values, color='coral')
 axes[1,0].set_title('Avg Price/sqm by Property Age')
 axes[1,0].set_xlabel('Age Band')
-axes[1,0].set_ylabel('€ per sqm')
+axes[1,0].set_ylabel('EUR  per sqm')
 
 num_cols = ['size_sqm','rooms','age_years','floor','has_balcony','has_parking',
             'distance_cbd_km','district_score','price_per_sqm']
@@ -135,15 +135,15 @@ bp_data = [df[df['city']==c]['monthly_rent_eur'].values for c in city_order]
 axes[1,2].boxplot(bp_data, tick_labels=city_order, patch_artist=True,
                   boxprops=dict(facecolor='lightblue', color='navy'),
                   medianprops=dict(color='red', linewidth=2))
-axes[1,2].set_title('Monthly Rent Distribution by City (€)')
+axes[1,2].set_title('Monthly Rent Distribution by City (EUR )')
 axes[1,2].set_xlabel('City')
-axes[1,2].set_ylabel('€/month')
+axes[1,2].set_ylabel('EUR /month')
 axes[1,2].tick_params(axis='x', rotation=30)
 
 plt.tight_layout()
 plt.savefig('outputs/eda_plots.png', dpi=150, bbox_inches='tight')
 plt.close()
-print("  ✓ Saved outputs/eda_plots.png")
+print("  [OK] Saved outputs/eda_plots.png")
 
 # ── 3. FEATURE ENGINEERING & PREPROCESSING ──────────────────
 print("\n[ML] Preparing features...")
@@ -190,7 +190,7 @@ for name, model in models.items():
     rmse = np.sqrt(mean_squared_error(y_test, preds))
     r2   = r2_score(y_test, preds)
     results[name] = {'MAE': mae, 'RMSE': rmse, 'R2': r2, 'preds': preds}
-    print(f"  {name:25s} | MAE: €{mae:,.0f} | RMSE: €{rmse:,.0f} | R²: {r2:.4f}")
+    print(f"  {name:25s} | MAE: EUR {mae:,.0f} | RMSE: EUR {rmse:,.0f} | R2: {r2:.4f}")
 
 # ── 5. MODEL COMPARISON PLOT ─────────────────────────────────
 fig, axes = plt.subplots(1, 3, figsize=(15, 5))
@@ -204,20 +204,20 @@ r2s   = [results[n]['R2']   for n in names]
 colors = ['#4C72B0','#55A868','#C44E52','#8172B2']
 
 axes[0].bar(names, maes, color=colors)
-axes[0].set_title('Mean Absolute Error (€) ↓ better')
-axes[0].set_ylabel('€')
+axes[0].set_title('Mean Absolute Error (EUR ) (lower is better)')
+axes[0].set_ylabel('EUR ')
 axes[0].tick_params(axis='x', rotation=20)
-for i,v in enumerate(maes): axes[0].text(i, v+10, f'€{v:.0f}', ha='center', fontsize=9)
+for i,v in enumerate(maes): axes[0].text(i, v+10, f'EUR {v:.0f}', ha='center', fontsize=9)
 
 axes[1].bar(names, rmses, color=colors)
-axes[1].set_title('RMSE (€) ↓ better')
-axes[1].set_ylabel('€')
+axes[1].set_title('RMSE (EUR ) (lower is better)')
+axes[1].set_ylabel('EUR ')
 axes[1].tick_params(axis='x', rotation=20)
-for i,v in enumerate(rmses): axes[1].text(i, v+10, f'€{v:.0f}', ha='center', fontsize=9)
+for i,v in enumerate(rmses): axes[1].text(i, v+10, f'EUR {v:.0f}', ha='center', fontsize=9)
 
 axes[2].bar(names, r2s, color=colors)
-axes[2].set_title('R² Score ↑ better')
-axes[2].set_ylabel('R²')
+axes[2].set_title('R2 Score (higher is better)')
+axes[2].set_ylabel('R2')
 axes[2].set_ylim(0, 1.05)
 axes[2].tick_params(axis='x', rotation=20)
 for i,v in enumerate(r2s): axes[2].text(i, v+0.01, f'{v:.3f}', ha='center', fontsize=9)
@@ -225,21 +225,21 @@ for i,v in enumerate(r2s): axes[2].text(i, v+0.01, f'{v:.3f}', ha='center', font
 plt.tight_layout()
 plt.savefig('outputs/model_comparison.png', dpi=150, bbox_inches='tight')
 plt.close()
-print("  ✓ Saved outputs/model_comparison.png")
+print("  [OK] Saved outputs/model_comparison.png")
 
 # ── 6. BEST MODEL DEEP-DIVE (Gradient Boosting) ──────────────
 best_model = models['Gradient Boosting']
 best_preds = results['Gradient Boosting']['preds']
 
 fig, axes = plt.subplots(1, 2, figsize=(13, 5))
-fig.suptitle('Gradient Boosting — Detailed Analysis', fontsize=13, fontweight='bold')
+fig.suptitle('Gradient Boosting - Detailed Analysis', fontsize=13, fontweight='bold')
 
 axes[0].scatter(y_test, best_preds, alpha=0.3, s=15, color='steelblue')
 mn, mx = y_test.min(), y_test.max()
 axes[0].plot([mn,mx],[mn,mx], 'r--', linewidth=1.5, label='Perfect fit')
-axes[0].set_xlabel('Actual Price/sqm (€)')
-axes[0].set_ylabel('Predicted Price/sqm (€)')
-axes[0].set_title(f'Actual vs Predicted  (R²={results["Gradient Boosting"]["R2"]:.4f})')
+axes[0].set_xlabel('Actual Price/sqm (EUR )')
+axes[0].set_ylabel('Predicted Price/sqm (EUR )')
+axes[0].set_title(f'Actual vs Predicted  (R2={results["Gradient Boosting"]["R2"]:.4f})')
 axes[0].legend()
 
 importances = best_model.feature_importances_
@@ -251,29 +251,29 @@ axes[1].set_xlabel('Importance Score')
 plt.tight_layout()
 plt.savefig('outputs/best_model_analysis.png', dpi=150, bbox_inches='tight')
 plt.close()
-print("  ✓ Saved outputs/best_model_analysis.png")
+print("  [OK] Saved outputs/best_model_analysis.png")
 
 # ── 7. RESIDUAL ANALYSIS ─────────────────────────────────────
 residuals = y_test.values - best_preds
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
-fig.suptitle('Residual Analysis — Gradient Boosting', fontsize=13, fontweight='bold')
+fig.suptitle('Residual Analysis - Gradient Boosting', fontsize=13, fontweight='bold')
 
 axes[0].scatter(best_preds, residuals, alpha=0.3, s=15, color='darkorange')
 axes[0].axhline(0, color='red', linestyle='--')
-axes[0].set_xlabel('Predicted Price/sqm (€)')
-axes[0].set_ylabel('Residual (€)')
+axes[0].set_xlabel('Predicted Price/sqm (EUR )')
+axes[0].set_ylabel('Residual (EUR )')
 axes[0].set_title('Residuals vs Predicted')
 
 axes[1].hist(residuals, bins=40, color='darkorange', edgecolor='white', alpha=0.8)
 axes[1].axvline(0, color='red', linestyle='--')
-axes[1].set_xlabel('Residual (€)')
+axes[1].set_xlabel('Residual (EUR )')
 axes[1].set_ylabel('Count')
 axes[1].set_title('Residual Distribution')
 
 plt.tight_layout()
 plt.savefig('outputs/residual_analysis.png', dpi=150, bbox_inches='tight')
 plt.close()
-print("  ✓ Saved outputs/residual_analysis.png")
+print("  [OK] Saved outputs/residual_analysis.png")
 
 # ── 8. CITY-LEVEL PREDICTION SUMMARY ─────────────────────────
 print("\n[Results] City-level prediction accuracy:")
@@ -300,13 +300,13 @@ ax.bar(x - w/2, city_metrics['actual_mean'],    w, label='Actual Avg', color='st
 ax.bar(x + w/2, city_metrics['predicted_mean'], w, label='Predicted Avg', color='coral')
 ax.set_xticks(x)
 ax.set_xticklabels(city_metrics.index, rotation=20)
-ax.set_ylabel('Avg Price/sqm (€)')
+ax.set_ylabel('Avg Price/sqm (EUR )')
 ax.set_title('Actual vs Predicted Average Price/sqm by City')
 ax.legend()
 plt.tight_layout()
 plt.savefig('outputs/city_predictions.png', dpi=150, bbox_inches='tight')
 plt.close()
-print("  ✓ Saved outputs/city_predictions.png")
+print("  [OK] Saved outputs/city_predictions.png")
 
 # ── 9. FINAL SUMMARY ─────────────────────────────────────────
 print("\n" + "=" * 60)
@@ -314,14 +314,14 @@ print("FINAL RESULTS SUMMARY")
 print("=" * 60)
 best = results['Gradient Boosting']
 print(f"Best Model      : Gradient Boosting Regressor")
-print(f"R² Score        : {best['R2']:.4f}")
-print(f"MAE             : €{best['MAE']:,.2f} per sqm")
-print(f"RMSE            : €{best['RMSE']:,.2f} per sqm")
+print(f"R2 Score        : {best['R2']:.4f}")
+print(f"MAE             : EUR {best['MAE']:,.2f} per sqm")
+print(f"RMSE            : EUR {best['RMSE']:,.2f} per sqm")
 print(f"\nAll plots saved to: outputs/")
 print("=" * 60)
 
 city_metrics.to_csv('outputs/city_prediction_results.csv')
-print("  ✓ Saved outputs/city_prediction_results.csv")
+print("  [OK] Saved outputs/city_prediction_results.csv")
 
 df.to_csv('outputs/housing_dataset.csv', index=False)
-print("  ✓ Saved outputs/housing_dataset.csv")
+print("  [OK] Saved outputs/housing_dataset.csv")
