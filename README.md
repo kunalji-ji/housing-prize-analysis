@@ -3,7 +3,7 @@
 **M516 Business Project in Big Data & AI — Gisma University of Applied Sciences, School of Computer Science**
 
 **Student:** Kunal Singh | **Student ID:** GH1039524
-**GitHub/GitLab Repository:** `<PASTE THIS REPO'S URL HERE ONCE CREATED>`
+**GitHub/GitLab Repository:** `https://github.com/kunalji-ji/housing-prize-analysis`
 **Video Demo (max 5 min):** `<PASTE YOUR YOUTUBE / ONEDRIVE LINK HERE>`
 
 This repository contains the well-documented implementation for a machine learning project that
@@ -141,9 +141,9 @@ flowchart TD
 - **EDA** (`outputs/eda_plots.png`) shows Munich commands the highest average price per sqm
   (~€9,800), followed by Frankfurt (~€7,100) and Hamburg (~€6,800); Leipzig is the most affordable
   market (~€3,400/sqm). The price distribution is right-skewed, reflecting premium properties in
-  high-demand districts. The correlation matrix confirms `district_score` is the strongest
-  positive predictor of price, while `distance_cbd_km` and `age_years` are the strongest negative
-  predictors.
+  high-demand districts. The correlation matrix shows the `city` variable itself has the strongest
+  positive linear correlation with price (r ≈ 0.47), ahead of `district_score` (r ≈ 0.23);
+  `distance_cbd_km` and `age_years` are tied as the strongest negative correlates (r ≈ -0.30 each).
 - **Feature engineering**: label encoding of the `city` variable (8 categories → integers 0–7); a
   derived binary feature `has_elevator` inferred from floor number (`floor > 3`); `StandardScaler`
   normalisation applied to features for linear models only.
@@ -152,9 +152,10 @@ flowchart TD
   = €541/sqm, RMSE = €653/sqm); Linear/Ridge Regression only reach R² ≈ 0.35, confirming non-linear
   relationships in the data.
 - **Best-model deep dive** (`outputs/best_model_analysis.png`): predictions cluster tightly around
-  the ideal 1:1 line. Feature importance confirms `district_score` is by far the most important
-  predictor, followed by `city_encoded` and `distance_cbd_km`; balcony/parking/elevator contribute
-  comparatively little.
+  the ideal 1:1 line. Feature importance confirms `city_encoded` is by far the most important
+  predictor (consistent with the correlation analysis above), followed by `distance_cbd_km` and
+  `age_years`. `district_score`, despite its meaningful positive correlation, ranks only fourth in
+  the tree-based importance measure; balcony/parking/elevator contribute comparatively little.
 
 ---
 
@@ -218,9 +219,9 @@ inline, next to the code that produces them, in [`analysis.ipynb`](analysis.ipyn
 This project successfully developed and evaluated a machine learning pipeline for predicting
 housing and rental prices in eight German metropolitan areas. The Gradient Boosting Regressor
 achieved the best performance (R² = 0.89, MAE = €541/sqm), substantially outperforming linear
-baselines. The analysis confirmed that location attributes — particularly district quality score
-and distance to the city centre — are the dominant price drivers, while property-level features
-play a secondary role.
+baselines. The analysis confirmed that location attributes — particularly the city itself, followed
+by distance to the city centre and property age — are the dominant price drivers, while
+property-level features play a secondary role.
 
 These findings have practical implications for property valuation, investment analysis, and
 rental market regulation. A model of this kind could be deployed as an API-backed pricing tool for
