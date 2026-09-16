@@ -139,8 +139,8 @@ flowchart TD
 **Key implementation details:**
 
 - **EDA** (`outputs/eda_plots.png`) shows Munich commands the highest average price per sqm
-  (~€9,800), followed by Frankfurt (~€7,100) and Hamburg (~€6,800); Leipzig is the most affordable
-  market (~€3,400/sqm). The price distribution is right-skewed, reflecting premium properties in
+  (~€10,000), followed by Frankfurt (~€7,400) and Hamburg (~€6,900); Leipzig is the most affordable
+  market (~€3,500/sqm). The price distribution is right-skewed, reflecting premium properties in
   high-demand districts. The correlation matrix shows the `city` variable itself has the strongest
   positive linear correlation with price (r ≈ 0.47), ahead of `district_score` (r ≈ 0.23);
   `distance_cbd_km` and `age_years` are tied as the strongest negative correlates (r ≈ -0.30 each).
