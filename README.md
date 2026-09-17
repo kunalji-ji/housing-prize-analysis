@@ -4,7 +4,7 @@
 
 **Student:** Kunal Singh | **Student ID:** GH1039524
 **GitHub/GitLab Repository:** `https://github.com/kunalji-ji/housing-prize-analysis`
-**Video Demo (max 5 min):** `<PASTE YOUR YOUTUBE / ONEDRIVE LINK HERE>`
+**Video Demo (max 5 min):** `
 
 This repository contains the well-documented implementation for a machine learning project that
 predicts housing prices per square metre and monthly rental prices across eight major German
