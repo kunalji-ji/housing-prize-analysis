@@ -22,10 +22,9 @@ cities (Berlin, Munich, Frankfurt, Hamburg, Cologne, Stuttgart, Düsseldorf, Lei
 4. [Challenges and Solutions](#4-challenges-and-solutions)
 5. [Results](#5-results)
 6. [Conclusion and Future Work](#6-conclusion-and-future-work)
-7. [Video Demonstration](#7-video-demonstration)
-8. [Project Files](#project-files)
-9. [Running the Project](#running-the-project)
-10. [References](#references)
+7. [Project Files](#project-files)
+8. [Running the Project](#running-the-project)
+9. [References](#references)
 
 ---
 
