@@ -237,15 +237,6 @@ real estate platforms, enabling automated valuation at scale.
 
 ---
 
-## 7. Video Demonstration
-
-A short screen-recorded video (**3–5 minutes max**, per the assignment brief) walks through this
-project end-to-end: the problem/objectives, the repository structure, running the notebook, and
-the key results above.
-
-**Video link:** `<PASTE YOUR YOUTUBE / ONEDRIVE LINK HERE>`
-
-*(See the [submission checklist](#running-the-project) below for what to cover.)*
 
 ---
 
